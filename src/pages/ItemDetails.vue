@@ -6,10 +6,11 @@
     <md-table v-model="users" md-card>
       <md-table-toolbar>
         <h1 class="md-title">All Items</h1>
+        {{ orditems }}
       </md-table-toolbar>
 
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-checkbox v-model="array" v-bind:value="item"></md-checkbox>
+        <md-checkbox v-model="orditems" v-bind:value="item.id"></md-checkbox>
         <md-table-cell>{{ item.name }}</md-table-cell>
       </md-table-row>
     </md-table>
@@ -32,7 +33,7 @@ export default {
     itemID: Number
    },
    data: () => ({
-     array:[],
+     orditems:[],
      users:[],
      items: [],
      item: '',
@@ -41,8 +42,9 @@ export default {
      description: '' 
    }),
    created() {
+    this.users = this.$store.state.items;
      this.loadItemdata();
-     this.$store.dispatch('getAllitems');
+    // this.$store.dispatch('getAllitems');
 
     //  axios.get('http://localhost:8000/api/items').then(response => {
 
@@ -54,7 +56,7 @@ export default {
 
    },
     computed: {
-      this.users = this.$store.getters.getData;
+      //this.users = this.$store.getters.getData;
     },
    async mounted() {
 
@@ -76,6 +78,13 @@ export default {
 
 
     },
+    showalert(e) {
+
+      if (e.target.checked) {
+        alert('checkbox checked');
+    }
+       // 
+    },
      closepanelitem() {
        // alert(this.itemID);
         this.$emit('closepanel', true);
@@ -91,7 +100,7 @@ export default {
         .then(
           function (response) {
            // this.blocks = response.data;
-          // console.log(response);
+           console.log(response);
           this.item = response.data.name;
           this.price = response.data.price;
           this.instock = response.data.quantity;

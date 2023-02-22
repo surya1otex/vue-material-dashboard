@@ -13,6 +13,9 @@
              <!-- <md-table-toolbar>
               <h1 class="md-title">Items</h1>
              </md-table-toolbar> -->
+             <ul>
+                <li v-for="item in $store.state.items" :key="item.id">{{ item.name }}</li>
+             </ul>
        <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="Name" md-sort-by="Name" @click.native="showItem(item.id)">{{ item.name }}</md-table-cell>
         <md-table-cell md-label="SKU" md-sort-by="SKU">{{ item.sku }}</md-table-cell>
@@ -71,7 +74,7 @@ export default {
     },
   },
   data: () => ({
-      users: [],
+     // users: [],
       showList: true,
       expand: false,
       itemID: 3,
@@ -79,7 +82,7 @@ export default {
       status: '',
       loader: false,
       table: true,
-      loading: true,
+      //loading: true,
       form: {
         itemid:'',
         itemName: '',
@@ -87,13 +90,21 @@ export default {
         price:''
       }
     }),
-  mounted() {
-     this.getItems()
+  async created() {
+    // this.getItems()
+   // this.users = await this.$store.state.items;
+  },
+  computed: {
+    users() {
+       return this.$store.state.items;
+  
+    }
   },
   methods: {
     getItems() {
-       axios.get('http://localhost:8000/api/items').then(response => {this.users = response.data });
-       this.loading = false;
+       //axios.get('http://localhost:8000/api/items').then(response => {this.users = response.data });
+      // this.users = this.$store.state.items;
+       //this.loading = false;
     },
     showItem(item) {
       //alert('Product Info');
